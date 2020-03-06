@@ -1,9 +1,9 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 
 type DefaultValue = {
-  isOpened?: boolean,
-  show?: () => any,
-  hide?: () => any,
+  isOpened?: boolean;
+  show?: () => any;
+  hide?: () => any;
 };
 
 export const defaultValue: DefaultValue = {
@@ -17,11 +17,11 @@ export class OverlayLoadingStore extends Component {
 
   show = () => {
     this.setState({ isOpened: true });
-  }
+  };
 
   hide = () => {
     this.setState({ isOpened: false });
-  }
+  };
 
   render() {
     return (
@@ -38,13 +38,13 @@ export class OverlayLoadingStore extends Component {
   }
 }
 
-
-type WithOverlayLoadingType = (Component: React.ComponentClass)
-  => (props: any)
-  => React.ReactNode;
+type WithOverlayLoadingType = (
+  Component: React.ComponentClass
+) => (props: any) => React.ReactNode;
 export const withOverlayLoading: WithOverlayLoadingType = Comp => props => (
   <OverlayLoadingContext.Consumer>
-    {overlayLoadingContext =>
-      <Comp {...props} overlayLoadingContext={overlayLoadingContext} />}
+    {overlayLoadingContext => (
+      <Comp {...props} overlayLoadingContext={overlayLoadingContext} />
+    )}
   </OverlayLoadingContext.Consumer>
 );

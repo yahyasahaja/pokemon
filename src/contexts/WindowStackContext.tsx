@@ -6,7 +6,7 @@ type DefaultValue = {
   pop?: () => number;
   popById?: (id: number) => number;
   reset?: () => void;
-  isPopupActive?: () => boolean;
+  isWindowActive?: () => boolean;
   isAtTop?: (id: number) => boolean;
 };
 
@@ -14,9 +14,9 @@ export const defaultValue: DefaultValue = {
   windows: [],
 };
 
-export const ServiceWorkerContext = React.createContext(defaultValue);
+export const WindowStackContext = React.createContext(defaultValue);
 
-export class ServiceWorkerStore extends Component {
+export class WindowStackStore extends Component {
   state = defaultValue;
 
   push() {
@@ -46,7 +46,7 @@ export class ServiceWorkerStore extends Component {
     });
   }
 
-  isPopupActive() {
+  isWindowActive() {
     return this.state.windows.length > 0;
   }
 
@@ -59,30 +59,30 @@ export class ServiceWorkerStore extends Component {
 
   render() {
     return (
-      <ServiceWorkerContext.Provider
+      <WindowStackContext.Provider
         value={{
           ...this.state,
           push: this.push,
           pop: this.pop,
           popById: this.popById,
           reset: this.reset,
-          isPopupActive: this.isPopupActive,
+          isWindowActive: this.isWindowActive,
           isAtTop: this.isAtTop,
         }}
       >
         {this.props.children}
-      </ServiceWorkerContext.Provider>
+      </WindowStackContext.Provider>
     );
   }
 }
 
-type WithServiceWorkerType = (
+type WithWindowStackType = (
   Component: React.ComponentClass
 ) => (props: any) => React.ReactNode;
-export const withServiceWorker: WithServiceWorkerType = Comp => props => (
-  <ServiceWorkerContext.Consumer>
+export const withWindowStack: WithWindowStackType = Comp => props => (
+  <WindowStackContext.Consumer>
     {serviceWorkerContext => (
       <Comp {...props} overlayLoadingContext={serviceWorkerContext} />
     )}
-  </ServiceWorkerContext.Consumer>
+  </WindowStackContext.Consumer>
 );
