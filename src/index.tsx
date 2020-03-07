@@ -7,6 +7,11 @@ import { SnackbarStore } from './contexts/SnackbarContext';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { COLORS } from './config';
 import { OverlayLoadingStore } from './contexts/OverlayLoadingContext';
+import { ServiceWorkerStore } from './contexts/ServiceWorkerContext';
+import { WindowStackStore } from './contexts/WindowStackContext';
+import { MainRouterStore } from './contexts/MainRouterContext';
+import { PokemonStore } from './contexts/PokemonContext';
+import { MyPokemonStore } from './contexts/MyPokemonContext';
 
 const MUITheme = createMuiTheme({
   palette: {
@@ -22,9 +27,19 @@ const MUITheme = createMuiTheme({
 ReactDOM.render(
   <OverlayLoadingStore>
     <SnackbarStore>
-      <MuiThemeProvider theme={MUITheme}>
-        <App />
-      </MuiThemeProvider>
+      <ServiceWorkerStore>
+        <MainRouterStore>
+          <WindowStackStore>
+            <PokemonStore>
+              <MyPokemonStore>
+                <MuiThemeProvider theme={MUITheme}>
+                  <App />
+                </MuiThemeProvider>
+              </MyPokemonStore>
+            </PokemonStore>
+          </WindowStackStore>
+        </MainRouterStore>
+      </ServiceWorkerStore>
     </SnackbarStore>
   </OverlayLoadingStore>,
   document.getElementById('root')

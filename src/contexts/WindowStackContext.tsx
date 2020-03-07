@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 
-type DefaultValue = {
-  windows: number[];
+interface Actions {
   push?: () => number;
   pop?: () => number;
   popById?: (id: number) => number;
   reset?: () => void;
-  isWindowActive?: () => boolean;
+  readonly isWindowActive?: boolean;
   isAtTop?: (id: number) => boolean;
-};
+}
+
+interface DefaultValue extends Actions {
+  windows: number[];
+}
 
 export const defaultValue: DefaultValue = {
   windows: [],
@@ -16,10 +19,10 @@ export const defaultValue: DefaultValue = {
 
 export const WindowStackContext = React.createContext(defaultValue);
 
-export class WindowStackStore extends Component {
+export class WindowStackStore extends Component implements Actions {
   state = defaultValue;
 
-  push() {
+  push = () => {
     const id = this.state.windows.length;
     this.state.windows.push(id);
     this.setState({
@@ -27,35 +30,36 @@ export class WindowStackStore extends Component {
     });
 
     return id;
-  }
+  };
 
-  pop() {
+  pop = () => {
     this.state.windows.pop();
     this.setState({ ...this.state.windows });
     return this.state.windows.length;
-  }
+  };
 
-  popById(id: number) {
+  popById = (id: number) => {
     this.state.windows.splice(this.state.windows.indexOf(id), 1);
+    this.setState({ ...this.state.windows });
     return this.state.windows.length;
-  }
+  };
 
-  reset() {
+  reset = () => {
     this.setState({
       windows: [],
     });
-  }
+  };
 
-  isWindowActive() {
+  get isWindowActive() {
     return this.state.windows.length > 0;
   }
 
-  isAtTop(id: number) {
+  isAtTop = (id: number) => {
     if (this.state.windows.length > 0) {
       return this.state.windows[this.state.windows.length - 1] === id;
     }
     return false;
-  }
+  };
 
   render() {
     return (

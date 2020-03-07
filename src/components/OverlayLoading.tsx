@@ -35,8 +35,8 @@ const StyledOverlayLoading = styled.div`
   }
 `;
 
-export default () => {
-  let { isOpened } = React.useContext(OverlayLoadingContext);
+const OverlayLoading = () => {
+  const { isOpened } = React.useContext(OverlayLoadingContext);
 
   if (!isOpened) return <div></div>;
 
@@ -53,3 +53,5 @@ export default () => {
     </StyledOverlayLoading>
   );
 };
+
+export default OverlayLoading;

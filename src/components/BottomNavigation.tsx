@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import styled from 'styled-components';
-import Fab from '@material-ui/core/Fab';
 import {
   NavigationProps,
   MainRouterContext,
@@ -12,17 +11,11 @@ import {
 const StyledBottomNavigation = styled(BottomNavigation)`
   && {
     width: 100%;
-    height: 47px;
+    height: 55px;
 
     .MuiBottomNavigationAction-root {
       min-width: 50px;
     }
-  }
-`;
-
-const StyledFab = styled(Fab)`
-  && {
-    box-shadow: none;
   }
 `;
 
@@ -41,24 +34,6 @@ const Container = styled.div`
     height: 1em;
     font-size: 1.7rem;
     line-height: 1;
-  }
-
-  .qr-code {
-    display: flex;
-    position: absolute;
-    top: -20px;
-    border-radius: 50px;
-    background: #009cff;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px -4px 8px #c3c3c3;
-    left: 50%;
-    transform: translateX(-50%);
-
-    .qr-icon {
-      color: white;
-      font-size: 20pt;
-    }
   }
 `;
 

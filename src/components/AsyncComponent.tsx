@@ -16,41 +16,40 @@ const PageLoading = styled.div`
 type Load = () => Promise<any>;
 
 type Props = {
-  load: Load
+  load: Load;
 };
 
 export const AsyncComponent = (props: Props) => {
-  const [ Comp, setComponent ] = React.useState<any>(null);
-  const [ loading, setLoading ] = React.useState(true);
+  const [Comp, setComponent] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
   const snackbarContext = React.useContext(SnackbarContext);
 
   React.useEffect(() => {
     setLoading(true);
-    const fetchComponent = async() => {
+    const fetchComponent = async () => {
       try {
         const modules = await props.load();
         setLoading(false);
         setComponent(() => modules.default);
       } catch (err) {
-        if (snackbarContext.show) snackbarContext.show(
-          'Error loading page, please refresh page',
-          {
-            severity: 'error'
-          }
-        );
+        if (snackbarContext.show)
+          snackbarContext.show('Error loading page, please refresh page', {
+            severity: 'error',
+          });
         console.log('ERROR WHILE LOADING PAGE ROUTE', err);
       }
     };
 
     fetchComponent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
-  if (loading) return (
-    <PageLoading>
-      <LinearProgress />
-    </PageLoading>
-  );
+  if (loading)
+    return (
+      <PageLoading>
+        <LinearProgress />
+      </PageLoading>
+    );
 
   if (Comp) return <Comp {...props} />;
   return <div>404 Not Found</div>;

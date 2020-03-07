@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-type DefaultValue = {
+export type DefaultValue = {
   isOpened: boolean;
   autoHideDuration: number;
   severity: string | null;
@@ -52,7 +52,11 @@ export class SnackbarStore extends Component {
   }
 }
 
-export const withSnackbar = (Comp: any) => (props: any) => (
+type WithSnackbarType = (
+  Component: React.ComponentClass | React.FunctionComponent<any>
+) => React.FunctionComponent<any>;
+
+export const withSnackbar: WithSnackbarType = Comp => props => (
   <SnackbarContext.Consumer>
     {snackbarContext => <Comp {...props} snackbarContext={snackbarContext} />}
   </SnackbarContext.Consumer>

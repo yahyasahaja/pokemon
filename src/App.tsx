@@ -13,6 +13,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { ServiceWorkerContext } from './contexts/ServiceWorkerContext';
+import { BrowserRouter } from 'react-router-dom';
+import { MyPokemonContext } from './contexts/MyPokemonContext';
 
 function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -22,7 +24,7 @@ axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers['Accept'] = 'application/json';
 axios.defaults.headers['Content-Type'] = 'application/json';
 
-function App() {
+const App = () => {
   const {
     autoHideDuration,
     isOpened,
@@ -31,13 +33,22 @@ function App() {
     close,
   } = React.useContext(SnackbarContext);
 
+  const { fetchMyPokemons } = React.useContext(MyPokemonContext);
+
   const { shouldUpdate, refreshPage, countDown } = React.useContext(
     ServiceWorkerContext
   );
 
+  React.useEffect(() => {
+    if (fetchMyPokemons) fetchMyPokemons();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className="App">
-      <AppRouters />
+      <BrowserRouter>
+        <AppRouters />
+      </BrowserRouter>
       <Snackbar
         open={!!isOpened}
         autoHideDuration={autoHideDuration}
@@ -52,11 +63,9 @@ function App() {
       </Snackbar>
       <section>
         <Dialog open={shouldUpdate}>
-          <DialogTitle id="alert-dialog-title">
-            Application update is available!
-          </DialogTitle>
+          <DialogTitle>Application update is available!</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText>
               Click reload to update the app
             </DialogContentText>
           </DialogContent>
@@ -68,6 +77,6 @@ function App() {
       <OverlayLoading />
     </div>
   );
-}
+};
 
 export default App;

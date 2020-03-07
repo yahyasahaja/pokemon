@@ -8,7 +8,7 @@ export type NavigationProps = {
 };
 
 export const PATHS = {
-  HOME: '/home',
+  HOME: '/pokemons',
   MY_POKEMON: '/mypokemon',
 };
 
@@ -22,15 +22,21 @@ type DefaultValue = {
   selectedRoute: NavigationProps | null;
   containerPose: string;
   routers: NavigationProps[];
-  updateRouters?: (routers: NavigationProps[]) => void;
+  checkAndUpdateRouter?: () => void;
   updateRouter?: (path: string) => void;
 };
 
 const DEFAULT_ROUTERS: NavigationProps[] = [
   {
-    icon: 'home',
-    label: 'Home',
-    path: '',
+    icon: 'pokemon-go',
+    label: 'Pokemon List',
+    path: '/pokemons',
+    outline: false,
+  },
+  {
+    icon: 'pokeball',
+    label: 'My Pokemon',
+    path: '/mypokemons',
     outline: false,
   },
 ];
@@ -60,28 +66,30 @@ export class MainRouterStore extends Component<any, DefaultValue> {
     }
   };
 
-  updateRouters(routers: NavigationProps[]) {
+  checkAndUpdateRouter = () => {
     const path: string = window.location.pathname;
+    const routers = this.state.routers;
 
     if (routers) {
       const route: NavigationProps | undefined = routers.find(
-        v => v.path === path
+        v => path.indexOf(v.path) !== -1
       );
 
       if (route) {
         this.setState({
           selectedRoute: route,
+          selectedPath: route.path,
         });
       }
     }
-  }
+  };
 
   render() {
     return (
       <MainRouterContext.Provider
         value={{
           ...this.state,
-          updateRouters: this.updateRouters,
+          checkAndUpdateRouter: this.checkAndUpdateRouter,
           updateRouter: this.updateRouter,
         }}
       >

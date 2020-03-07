@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import styled from 'styled-components';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,7 @@ const StyledToolbar = styled(Toolbar)`
     .left {
       display: flex;
       align-items: center;
+      text-transform: capitalize;
     }
 
     .logo {
@@ -49,7 +50,7 @@ const StyledAppBar = styled(AppBar)`
   }
 `;
 
-const Container = styled('div')<{ backgroundcolor: string }>`
+const Container = styled('div')<{ backgroundcolor: string | null }>`
   height: 100vh;
   overflow: hidden;
   padding-top: 47px;
@@ -71,29 +72,55 @@ const Transition: any = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-export {};
+export type PathParamsType = {
+  prevPath: string;
+};
 
-const WindowRoute = (props: any) => {
-  const stackId = null;
+export type OwnProps = {
+  backgroundColor?: string;
+  title?: string;
+  children?: React.ReactNode;
+};
+
+export type Props = RouteComponentProps<any, any, PathParamsType> & OwnProps;
+
+const WindowRoute = (props: Props) => {
   const [isOpened, setIsOpened] = React.useState(true);
-  const { pop, isAtTop } = React.useContext(WindowStackContext);
-  const { history, backPath, backgroundColor, title, children } = props;
+  const [isClosed, setIsClosed] = React.useState(false);
+  const [stackId, setStackId] = React.useState(-1);
+  const { pop, popById, isAtTop, push } = React.useContext(WindowStackContext);
+  const { history, location, backgroundColor, title, children } = props;
 
   let pose = 'inactive';
 
-  if (stackId) {
-    if (isAtTop && isAtTop(stackId)) {
+  if (stackId !== -1) {
+    if (isAtTop && isAtTop(Number(stackId))) {
       pose = 'active';
     }
   }
 
+  React.useEffect(() => {
+    if (push) {
+      setStackId(push());
+    }
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      if (!isClosed && popById && stackId !== -1) {
+        popById(stackId);
+      }
+    };
+  }, [stackId]);
+
   const close = () => {
     setIsOpened(false);
-
+    setIsClosed(true);
     if (pop) pop();
     setTimeout(() => {
-      if (backPath) return history.replace(backPath);
-      else history.goBack();
+      if (location.state && location.state.prevPath) {
+        history.replace(location.state.prevPath);
+      } else history.goBack();
     }, 300);
   };
 
@@ -105,7 +132,7 @@ const WindowRoute = (props: any) => {
       TransitionComponent={Transition}
     >
       <PosedContainer
-        backgroundcolor={backgroundColor}
+        backgroundcolor={backgroundColor || null}
         pose={pose}
         initialPose="active"
         withParent={false}
@@ -126,13 +153,7 @@ const WindowRoute = (props: any) => {
             </div>
           </StyledToolbar>
         </StyledAppBar>
-        <div className="screen-container">
-          {React.Children.map(children, child =>
-            React.cloneElement(child, {
-              stackId: stackId,
-            })
-          )}
-        </div>
+        <div className="screen-container">{children}</div>
       </PosedContainer>
     </Dialog>
   );

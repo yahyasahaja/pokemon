@@ -39,8 +39,9 @@ export class OverlayLoadingStore extends Component {
 }
 
 type WithOverlayLoadingType = (
-  Component: React.ComponentClass
-) => (props: any) => React.ReactNode;
+  Component: React.ComponentClass | React.FunctionComponent<any>
+) => React.FunctionComponent<any>;
+
 export const withOverlayLoading: WithOverlayLoadingType = Comp => props => (
   <OverlayLoadingContext.Consumer>
     {overlayLoadingContext => (
