@@ -135,10 +135,10 @@ const PokemonCard = (props: Props) => {
           </div>
         )}
         {ownedPokemon && (
-          <div data-testid="nickname" className="nickname">
+          <div className="nickname">
             <div className="label">Nickname</div>
 
-            <div className="nickname-value">
+            <div data-testid="pokemon-card-nickname" className="nickname-value">
               {ownedPokemon.nickname === ''
                 ? "Haven't named"
                 : ownedPokemon.nickname}

@@ -8,7 +8,10 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import MDIcon from '../components/MDIcon';
 import PokemonDetailSkeleton from '../components/PokemonDetailSkeleton';
 import { Button, TextField } from '@material-ui/core';
-import { MyPokemonContext } from '../contexts/MyPokemonContext';
+import {
+  MyPokemonContext,
+  MyPokemonListItem,
+} from '../contexts/MyPokemonContext';
 import { Chip } from '../components/Chip';
 
 const Container = styled.div`
@@ -116,13 +119,27 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
   const { pokemon, fetchPokemon, isFetchingPokemon } = React.useContext(
     PokemonContext
   );
-  const { catchPokemon, isOwned } = React.useContext(MyPokemonContext);
+  const { catchPokemon, isOwned, updateNickname, release } = React.useContext(
+    MyPokemonContext
+  );
+  const [nickname, setNickname] = React.useState('');
+  const nicknameInput = React.useRef<any>(null);
   const { match } = props;
+  let ownedPokemon: MyPokemonListItem | null = null;
 
   React.useEffect(() => {
     if (fetchPokemon) fetchPokemon(match.params.name);
     // eslint-disable-next-line
   }, [])
+
+  if (isOwned && pokemon) {
+    ownedPokemon = isOwned(pokemon.name);
+  }
+
+  React.useEffect(() => {
+    if (ownedPokemon) setNickname(ownedPokemon.nickname);
+    // eslint-disable-next-line
+  }, [pokemon]);
 
   function renderPokemon() {
     if (isFetchingPokemon) return <PokemonDetailSkeleton />;
@@ -148,6 +165,14 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
         </div>
 
         <div className="name">{pokemon.name}</div>
+        {ownedPokemon && (
+          <div className="">
+            Nickname:{' '}
+            {ownedPokemon.nickname === ''
+              ? "Haven't named"
+              : ownedPokemon.nickname}
+          </div>
+        )}
         <div className="key-value">
           <div className="key">Species</div>
           <div className="value">{pokemon.species.name}</div>
@@ -180,7 +205,7 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
         </div>
 
         <div className="catch-wrapper">
-          {isOwned && isOwned(pokemon.name) ? (
+          {ownedPokemon ? (
             <div
               data-testid="pokemon-details-has-owned-message"
               className="owned"
@@ -188,25 +213,37 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
               <div className="owned-label">You have owned this pokemon</div>
               <div className="nickname-mutation-wrapper">
                 <TextField
+                  inputRef={nicknameInput}
                   name="update-nickname"
                   variant="standard"
                   color="primary"
                   label="Nickname"
+                  data-testid="input-nickname"
                   fullWidth
                   placeholder="Type this pokemon nickname"
+                  value={nickname}
+                  onChange={e => setNickname(e.target.value)}
                 />
 
                 <Button
                   className="save-button"
+                  data-testid="save-nickname-button"
                   variant="contained"
                   color="primary"
+                  onClick={() => {
+                    if (updateNickname) updateNickname(pokemon.name, nickname);
+                  }}
                 >
                   Save
                 </Button>
                 <Button
                   className="save-button"
                   variant="contained"
+                  data-testid="release-button"
                   color="secondary"
+                  onClick={() => {
+                    if (release) release(pokemon.name);
+                  }}
                 >
                   Release
                 </Button>
@@ -218,9 +255,14 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
               color="primary"
               variant="contained"
               data-testid="catch-button"
-              onClick={() => {
+              onClick={async () => {
                 if (catchPokemon) {
-                  catchPokemon(pokemon as PokemonListItem);
+                  const res = await catchPokemon(pokemon as PokemonListItem);
+                  if (res) {
+                    setNickname('');
+                    nicknameInput?.current?.focus();
+                    console.log(nicknameInput);
+                  }
                 }
               }}
             >

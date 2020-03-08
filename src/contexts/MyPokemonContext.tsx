@@ -16,6 +16,8 @@ interface Actions {
   clearCatchTimeout?: () => void;
   isOwned?: (name: string) => MyPokemonListItem | null;
   clearPokemons?: () => void;
+  release?: (name: string) => void;
+  updateNickname?: (name: string, nickname: string) => void;
 }
 
 interface DefaultValue extends Actions {
@@ -54,7 +56,7 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
                 ...pokemonListItem,
                 nickname: '',
               });
-              this.props.snackbarContext.show('Gotcha', {
+              this.props.snackbarContext.show('Gotcha!', {
                 severity: 'success',
               });
             }
@@ -66,12 +68,9 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
             resolve(newMyPokemons);
           }
         } else {
-          this.props.snackbarContext.show(
-            'Failed to catch :(, never give up!',
-            {
-              severity: null,
-            }
-          );
+          this.props.snackbarContext.show('Failed to catch :( never give up!', {
+            severity: null,
+          });
         }
 
         resolve(false);
@@ -148,6 +147,42 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
     return null;
   };
 
+  updateNickname = async (name: string, nickname: string) => {
+    const myPokemons = await this.getMyPokemonsFromLocal();
+    if (myPokemons.length > 0) {
+      for (let i = 0; i < myPokemons.length; i++) {
+        if (myPokemons[i].name === name) {
+          myPokemons[i].nickname = nickname;
+          await this.setStateAsync({
+            myPokemons,
+          });
+          await localforage.setItem(LOCAL_MY_POKEMONS_URI, myPokemons);
+          this.props.snackbarContext.show('Nickname updated', {
+            severity: 'success',
+          });
+        }
+      }
+    }
+  };
+
+  release = async (name: string) => {
+    const myPokemons = await this.getMyPokemonsFromLocal();
+    if (myPokemons.length > 0) {
+      for (let i = 0; i < myPokemons.length; i++) {
+        if (myPokemons[i].name === name) {
+          myPokemons.splice(i, 1);
+          await this.setStateAsync({
+            myPokemons,
+          });
+          await localforage.setItem(LOCAL_MY_POKEMONS_URI, myPokemons);
+          this.props.snackbarContext.show(`Pokemon ${name} released`, {
+            severity: 'success',
+          });
+        }
+      }
+    }
+  };
+
   setStateAsync = (state: any): Promise<DefaultValue> => {
     return new Promise(resolve => {
       this.setState(state, () => resolve(state));
@@ -164,6 +199,8 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
           clearCatchTimeout: this.clearCatchTimeout,
           isOwned: this.isOwned,
           clearPokemons: this.clearPokemons,
+          updateNickname: this.updateNickname,
+          release: this.release,
         }}
       >
         {this.props.children}

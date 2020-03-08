@@ -77,6 +77,7 @@ const App = () => {
             <MDIcon icon="close" />
           </IconButton>,
         ]}
+        data-testid="snackbar"
       >
         {severity && (
           <Alert onClose={close} severity={severity}>
