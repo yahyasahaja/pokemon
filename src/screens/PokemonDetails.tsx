@@ -52,9 +52,11 @@ const Container = styled.div`
     .value {
       display: flex;
       margin-top: 10px;
+      flex-wrap: wrap;
 
       .pokemon-chip {
         margin-right: 20px;
+        margin-bottom: 10px;
 
         .chip {
           background: #3498db;
