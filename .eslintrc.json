@@ -9,7 +9,7 @@
   "globals": {
     "importScripts": true,
     "urlsToCacheKeys": true,
-    "jsx": true,
+    "jsx": true
   },
   "plugins": ["react", "@typescript-eslint", "prettier", "cypress"],
   "env": {

@@ -35,12 +35,16 @@ const App = () => {
 
   const { fetchMyPokemons } = React.useContext(MyPokemonContext);
 
-  const { shouldUpdate, refreshPage, countDown } = React.useContext(
-    ServiceWorkerContext
-  );
+  const {
+    shouldUpdate,
+    refreshPage,
+    countDown,
+    checkAppInstalledStatus,
+  } = React.useContext(ServiceWorkerContext);
 
   React.useEffect(() => {
     if (fetchMyPokemons) fetchMyPokemons();
+    if (checkAppInstalledStatus) checkAppInstalledStatus();
     // eslint-disable-next-line
   }, []);
 

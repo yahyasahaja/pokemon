@@ -50,7 +50,7 @@ const MyPokemons = () => {
   function renderPokemons() {
     if (myPokemons.length === 0)
       return (
-        <div className="empty">
+        <div data-testid="my-pokemons-empty" className="empty">
           <div>Empty</div>
           <MDIcon className="icon" icon="pokeball" />
         </div>
@@ -70,6 +70,7 @@ const MyPokemons = () => {
       <CustomAppBar
         component={
           <IconButton
+            data-testid="clear-my-pokemons"
             onClick={() => {
               if (clearPokemons) clearPokemons();
             }}

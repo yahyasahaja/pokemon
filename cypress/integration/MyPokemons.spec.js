@@ -36,7 +36,12 @@ describe('My pokemon list', () => {
           const name = el.text();
           expect(name).to.equal('bulbasaur')
         })
-      cy.window().then(win => win.utils.localforage.clear())
     });
   });
+
+  it('Should be able to clear pokemon', () => {
+    cy.get('[data-testid="clear-my-pokemons"]').click();
+    cy.get('[data-testid="my-pokemons-empty"]').should('exist');
+    cy.window().then(win => win.utils.localforage.clear())
+  })
 });
