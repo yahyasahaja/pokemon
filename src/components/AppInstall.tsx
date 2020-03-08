@@ -67,7 +67,7 @@ const AppInstall: React.FunctionComponent = () => {
     showAppInstallPrompt,
   } = React.useContext(ServiceWorkerContext);
 
-  if (!isInstallPromptUIShowed) return <div />;
+  if (!isInstallPromptUIShowed) return <div data-testid="appinstall-empty" />;
 
   return (
     <React.Fragment>

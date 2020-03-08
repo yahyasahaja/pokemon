@@ -59,6 +59,7 @@ const CustomBottomNavigation = (props: RouteComponentProps) => {
                 key={i}
                 label={d.label}
                 value={d.path}
+                data-testid="routers"
                 icon={
                   <div
                     className={`icon mdi mdi-${d.icon}${

@@ -30,7 +30,10 @@ export const MyPokemonContext = React.createContext(defaultValue);
 
 class MyPokemonStoreClass extends Component<any, DefaultValue>
   implements Actions {
-  state = defaultValue;
+  constructor(props) {
+    super(props);
+    this.state = props.value || defaultValue;
+  }
 
   catchPokemon = (pokemonListItem: PokemonListItem) => {
     return new Promise(resolve => {
@@ -132,7 +135,6 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
         }
       }
     }
-
     return false;
   };
 

@@ -1,15 +1,22 @@
-import { generateAvatarName } from './utils';
+import { generateImageUrlById, generateImageUrlByUrl } from './utils';
 
 describe('Test helper functions', () => {
-  it('Should return 2 first character words of given name props', () => {
-    expect(generateAvatarName('Asti Annisa')).toEqual('AA');
+  it('generateImageUrlById shpuld give correct return value', () => {
+    const id = 10;
+    expect(generateImageUrlById(id)).toEqual(
+      `https://pokeres.bastionbot.org/images/pokemon/${id}.png`
+    );
   });
 
-  it('Should show first character for given one word name props', () => {
-    expect(generateAvatarName('Asti')).toEqual('A');
+  it('generateImageUrlByUrl should give the correct return value', () => {
+    const url = 'https://someurl/blabla/yay/2/';
+    const result = generateImageUrlByUrl(url);
+    expect(result).toContain('/2.png');
   });
 
-  it('Display result value with Upper Case', () => {
-    expect(generateAvatarName('Yahya sahaja Asti')).toEqual('YS');
+  it('generateImageUrlByUrl correct return value with another url signature', () => {
+    const url = 'https://someurl/blabla/yay/2';
+    const result = generateImageUrlByUrl(url);
+    expect(result).toContain('/2.png');
   });
 });

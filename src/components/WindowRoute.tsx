@@ -103,6 +103,7 @@ const WindowRoute = (props: Props) => {
     if (push) {
       setStackId(push());
     }
+    // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
@@ -111,6 +112,7 @@ const WindowRoute = (props: Props) => {
         popById(stackId);
       }
     };
+    // eslint-disable-next-line
   }, [stackId]);
 
   const close = () => {
@@ -147,7 +149,11 @@ const WindowRoute = (props: Props) => {
               <IconButton edge="start" color="inherit" onClick={close}>
                 <MDIcon icon="chevron-left" />
               </IconButton>
-              <Typography style={{ flex: 1 }} variant="h6">
+              <Typography
+                data-testid="window-route-title"
+                style={{ flex: 1 }}
+                variant="h6"
+              >
                 {title || 'Window Page'}
               </Typography>
             </div>

@@ -7,16 +7,6 @@ export type NavigationProps = {
   outline: boolean;
 };
 
-export const PATHS = {
-  HOME: '/pokemons',
-  MY_POKEMON: '/mypokemon',
-};
-
-export const ROUTER_STATE = {
-  OPEN_CONTAINER: 'opencontainer',
-  CLOSE_CONTAINER: 'closecontainer',
-};
-
 type DefaultValue = {
   selectedPath: string;
   selectedRoute: NavigationProps | null;
@@ -26,23 +16,33 @@ type DefaultValue = {
   updateRouter?: (path: string) => void;
 };
 
-const DEFAULT_ROUTERS: NavigationProps[] = [
+export const PATHS = {
+  POKEMONS: '/pokemons',
+  MY_POKEMONS: '/mypokemons',
+};
+
+export const ROUTER_STATE = {
+  OPEN_CONTAINER: 'opencontainer',
+  CLOSE_CONTAINER: 'closecontainer',
+};
+
+export const DEFAULT_ROUTERS: NavigationProps[] = [
   {
     icon: 'pokemon-go',
     label: 'Pokemon List',
-    path: '/pokemons',
+    path: PATHS.POKEMONS,
     outline: false,
   },
   {
     icon: 'pokeball',
     label: 'My Pokemon',
-    path: '/mypokemons',
+    path: PATHS.MY_POKEMONS,
     outline: false,
   },
 ];
 
 export const defaultValue: DefaultValue = {
-  selectedPath: PATHS.HOME,
+  selectedPath: PATHS.POKEMONS,
   selectedRoute: null,
   containerPose: ROUTER_STATE.OPEN_CONTAINER,
   routers: DEFAULT_ROUTERS,

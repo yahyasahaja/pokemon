@@ -102,8 +102,14 @@ const PokemonCard = (props: Props) => {
       </div>
 
       <div className="details">
-        <div className="name">{data.name}</div>
-        {isOwned && isOwned(data.name) && <div className="owned">Owned</div>}
+        <div data-testid="pokemon-card-name" className="name">
+          {data.name}
+        </div>
+        {isOwned && isOwned(data.name) && (
+          <div data-testid="pokemon-card-owned" className="owned">
+            Owned
+          </div>
+        )}
       </div>
     </StyledPokemonCard>
   );

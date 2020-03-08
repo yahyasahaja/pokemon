@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { asyncComponent } from './components/AsyncComponent';
 import BottomNavigation from './components/BottomNavigation';
-import CustomAppBar from './components/CustomAppBar';
 import { MainRouterContext } from './contexts/MainRouterContext';
 
 //ROUTERS

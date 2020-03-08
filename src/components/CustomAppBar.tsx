@@ -68,7 +68,9 @@ const CustomAppBar = (props: Props) => {
             <img src="/logo512.png" alt="logo" />
           </div>
 
-          <span className="title">{selectedRoute && selectedRoute.label}</span>
+          <span data-testid="appbar-title" className="title">
+            {selectedRoute && selectedRoute.label}
+          </span>
         </Link>
 
         {component}
