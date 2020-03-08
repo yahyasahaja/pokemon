@@ -15,6 +15,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { ServiceWorkerContext } from './contexts/ServiceWorkerContext';
 import { BrowserRouter } from 'react-router-dom';
 import { MyPokemonContext } from './contexts/MyPokemonContext';
+import { IconButton } from '@material-ui/core';
+import MDIcon from './components/MDIcon';
+
+declare global {
+  interface Window {
+    snackbar: any;
+  }
+}
 
 function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -31,7 +39,7 @@ const App = () => {
     message,
     severity,
     close,
-  } = React.useContext(SnackbarContext);
+  } = (window.snackbar = React.useContext(SnackbarContext));
 
   const { fetchMyPokemons } = React.useContext(MyPokemonContext);
 
@@ -58,6 +66,16 @@ const App = () => {
         autoHideDuration={autoHideDuration}
         onClose={close}
         message={!severity && message}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            onClick={close}
+          >
+            <MDIcon icon="close" />
+          </IconButton>,
+        ]}
       >
         {severity && (
           <Alert onClose={close} severity={severity}>

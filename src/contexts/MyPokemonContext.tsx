@@ -59,7 +59,12 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
             resolve(newMyPokemons);
           }
         } else {
-          this.props.snackbarContext.show('Failed to catch :(, never give up!');
+          this.props.snackbarContext.show(
+            'Failed to catch :(, never give up!',
+            {
+              severity: null,
+            }
+          );
         }
 
         resolve(false);

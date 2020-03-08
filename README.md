@@ -1,4 +1,4 @@
-# Social Media Dashboard
+# Pokemon
 [![pipeline status](https://gitlab.com/yahyasahaja/pokemon/badges/master/pipeline.svg)](https://gitlab.com/yahyasahaja/pokemon/commits/master)
 
 ---
