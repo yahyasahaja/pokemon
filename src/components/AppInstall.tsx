@@ -18,6 +18,7 @@ const Container = styled.div`
   background: #3498db;
   color: white;
   position: fixed;
+  top: 56px;
   align-items: center;
   width: 100%;
   z-index: 1300;

@@ -89,7 +89,7 @@ export class ServiceWorkerStore extends Component<any, DefaultValue> {
     });
   };
 
-  async showAppInstallPrompt() {
+  showAppInstallPrompt = async () => {
     if (!this.deferredAppInstallPrompt) return;
 
     this.setState({
@@ -109,7 +109,7 @@ export class ServiceWorkerStore extends Component<any, DefaultValue> {
     });
     localStorage.setItem(APP_INSTALL_STATUS_URI, choiceResult.outcome);
     this.deferredAppInstallPrompt = null;
-  }
+  };
 
   rejectAppInstall() {
     this.setState({
