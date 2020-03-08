@@ -8,6 +8,8 @@ export const COLORS = {
 export const APP_INSTALL_STATUS_URI: string = 'pokemonyay';
 export const LOCAL_POKEMON_MAP_URI: string = 'pokemonmap';
 export const LOCAL_MY_POKEMONS_URI: string = 'mypokemonmap';
+export const IMAGE_URL: string =
+  'https://pokeres.bastionbot.org/images/pokemon';
 
 export default {
   BASE_URL,

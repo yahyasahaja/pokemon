@@ -1,4 +1,5 @@
 import localforage from 'localforage';
+import { IMAGE_URL } from './config';
 
 declare global {
   interface Window {
@@ -8,15 +9,14 @@ declare global {
     };
   }
 }
-
 export const generateImageUrlByUrl = (url: string): string => {
   const splittedUrl = url.split('/');
   const id =
     splittedUrl[splittedUrl.length - 1] || splittedUrl[splittedUrl.length - 2];
-  return `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
+  return `${IMAGE_URL}/${id}.png`;
 };
 export const generateImageUrlById = (id: number): string => {
-  return `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
+  return `${IMAGE_URL}/${id}.png`;
 };
 
 export const utils = {

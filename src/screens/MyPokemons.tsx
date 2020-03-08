@@ -42,6 +42,18 @@ const Container = styled.div`
       margin-top: 20px;
     }
   }
+
+  .total-caught {
+    display: block;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 1px 1px 60px 0px #00000017;
+    margin: 10px;
+    max-width: 350px;
+    transition: 0.3s;
+    border: 1px solid #d4d4d4;
+    padding: 20px;
+  }
 `;
 
 const MyPokemons = () => {
@@ -80,6 +92,9 @@ const MyPokemons = () => {
         }
       />
       <Container>
+        <div className="total-caught">
+          Total pokemon caught: {myPokemons.length}
+        </div>
         {renderPokemons()}
         <Route path="/mypokemons/:name" component={PokemonDetails} />
       </Container>

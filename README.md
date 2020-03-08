@@ -20,7 +20,7 @@ I'm using **React JS** using typescript as a framework to develop this app.
 ## Architecture
 
 I'm using (Model-View-ViewModel) as an app architecture. 
-- The `Model` can be found at `https://pokeapi.co/api/v2/`.
+- The `Model` can be found at `https://pokeapi.co/api/v2/`. For the image, I prefered using this `https://pokeres.bastionbot.org/images/pokemon/${id}.png`, it has the same id given as pokeapi.
 - The `View` can be found at `screens`
 - The `ViewModel` can be represented as the context itself. So all the requests can only be triggered from ViewModel. There's no way to direct interaction between Model and View
 
