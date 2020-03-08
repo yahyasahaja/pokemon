@@ -181,12 +181,18 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
 
         <div className="catch-wrapper">
           {isOwned && isOwned(pokemon.name) ? (
-            <div className="owned">You have owned this pokemon</div>
+            <div
+              data-testid="pokemon-details-has-owned-message"
+              className="owned"
+            >
+              You have owned this pokemon
+            </div>
           ) : (
             <Button
               fullWidth
               color="primary"
               variant="contained"
+              data-testid="catch-button"
               onClick={() => {
                 if (catchPokemon) {
                   catchPokemon(pokemon as PokemonListItem);

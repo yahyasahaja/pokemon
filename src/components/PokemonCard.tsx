@@ -83,6 +83,7 @@ const PokemonCard = (props: Props) => {
 
   return (
     <StyledPokemonCard
+      data-testid="pokemon-card"
       onClick={() => {
         history.push({
           pathname: `${location.pathname}/${data.name}`,

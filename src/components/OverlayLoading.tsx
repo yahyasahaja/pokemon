@@ -41,7 +41,7 @@ const OverlayLoading = () => {
   if (!isOpened) return <div></div>;
 
   return (
-    <StyledOverlayLoading>
+    <StyledOverlayLoading data-testid="overlay-loading">
       <div className="overlay-loading">
         <div className="overlay-loading-2">
           <div className="wrapper">

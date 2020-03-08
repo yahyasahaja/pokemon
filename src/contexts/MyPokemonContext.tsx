@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import localforage from 'localforage';
 import { LOCAL_MY_POKEMONS_URI } from '../config';
-import { calculateCatchPokemon } from '../utils';
+import { utils } from '../utils';
 import { PokemonListItem } from './PokemonContext';
 import { withOverlayLoading } from './OverlayLoadingContext';
 import { withSnackbar } from './SnackbarContext';
@@ -40,7 +40,7 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
       this.props.overlayLoadingContext.show();
       const timeoutId = setTimeout(async () => {
         this.props.overlayLoadingContext.hide();
-        if (calculateCatchPokemon()) {
+        if (utils.calculateCatchPokemon()) {
           const myPokemons: PokemonListItem[] = await this.getMyPokemonsFromLocal();
 
           if (myPokemons) {

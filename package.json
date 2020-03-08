@@ -30,11 +30,14 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint -c .eslintrc.json --ext .ts src"
+    "lint": "eslint -c .eslintrc.json --ext .ts src",
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress:run": "./node_modules/.bin/cypress run",
+    "e2e-test": "start-server-and-test start http://localhost:3002 cypress:run"
   },
   "eslintConfig": {
     "extends": "react-app"
