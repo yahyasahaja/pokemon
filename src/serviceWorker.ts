@@ -10,6 +10,14 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+import { DefaultValue } from './contexts/ServiceWorkerContext'
+
+declare global {
+  interface Window {
+    serviceWorkerContext: DefaultValue
+  }
+}
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -83,6 +91,8 @@ function registerValidSW(swUrl: string, config?: Config) {
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
+              const { updateServiceWorker } = window.serviceWorkerContext;
+              if (updateServiceWorker) updateServiceWorker();
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { APP_INSTALL_STATUS_URI } from '../config';
 
-type DefaultValue = {
+export type DefaultValue = {
   shouldUpdate: boolean;
   countDown: number;
   intervalId: number | null;

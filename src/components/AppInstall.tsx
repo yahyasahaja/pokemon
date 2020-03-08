@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ServiceWorkerContext } from '../contexts/ServiceWorkerContext';
+import { ServiceWorkerContext, DefaultValue } from '../contexts/ServiceWorkerContext';
+
+declare global {
+  interface Window {
+    serviceWorkerContext: DefaultValue
+  }
+}
 
 const Container = styled.div`
   display: flex;
@@ -65,7 +71,7 @@ const AppInstall: React.FunctionComponent = () => {
     isInstallPromptUIShowed,
     rejectAppInstall,
     showAppInstallPrompt,
-  } = React.useContext(ServiceWorkerContext);
+  } = window.serviceWorkerContext = React.useContext(ServiceWorkerContext);
 
   if (!isInstallPromptUIShowed) return <div data-testid="appinstall-empty" />;
 
