@@ -10,11 +10,11 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-import { DefaultValue } from './contexts/ServiceWorkerContext'
+import { DefaultValue } from './contexts/ServiceWorkerContext';
 
 declare global {
   interface Window {
-    serviceWorkerContext: DefaultValue
+    serviceWorkerContext: DefaultValue;
   }
 }
 

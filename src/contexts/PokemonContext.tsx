@@ -10,10 +10,8 @@ export type Ability = {
   };
 };
 
-export type Stat = {
-  base_stat: number;
-  effort: number;
-  stat: {
+export type Move = {
+  move: {
     name: string;
   };
 };
@@ -32,8 +30,8 @@ export type Pokemon = {
   };
   image_url: string;
   abilities: Ability[];
-  stats: Stat[];
   types: Type[];
+  moves: Move[];
 };
 
 export interface PokemonsMap {
@@ -97,8 +95,8 @@ export class PokemonStore extends Component<any, DefaultValue>
           image_url: generateImageUrlById(data.id),
           abilities: data.abilities,
           species: data.species,
-          stats: data.stats,
           types: data.types,
+          moves: data.moves,
         };
 
         this.setStateAsync({ pokemon: { ...pokemonResult } });

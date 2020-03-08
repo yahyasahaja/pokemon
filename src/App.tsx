@@ -66,6 +66,7 @@ const App = () => {
         autoHideDuration={autoHideDuration}
         onClose={close}
         message={!severity && message}
+        style={{ bottom: '70px' }}
         action={[
           <IconButton
             key="close"

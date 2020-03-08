@@ -1,9 +1,10 @@
 import React from 'react';
-import { PokemonListItem } from '../contexts/PokemonContext';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import styled from 'styled-components';
 import { MyPokemonContext } from '../contexts/MyPokemonContext';
+import { PokemonListItem } from '../contexts/PokemonContext';
+import { MyPokemonListItem } from '../contexts/MyPokemonContext';
 
 const StyledPokemonCard = styled.div`
   display: block;
@@ -67,19 +68,41 @@ const StyledPokemonCard = styled.div`
     }
 
     .owned {
-      text-align: center;
       color: #0098e1;
+      text-align: center;
+    }
+
+    .nickname {
+      text-align: left;
+
+      .label {
+        color: #606060;
+        margin-top: 10px;
+        font-size: 9pt;
+      }
+
+      .nickname-value {
+        font-size: 8pt;
+        font-weight: bold;
+        color: #0098e1;
+      }
     }
   }
 `;
 
 export interface Props extends RouteComponentProps {
-  data: PokemonListItem;
+  data: PokemonListItem | MyPokemonListItem;
 }
 
 const PokemonCard = (props: Props) => {
   const { data, history, location } = props;
   const { isOwned } = React.useContext(MyPokemonContext);
+
+  let ownedPokemon: MyPokemonListItem | null = null;
+
+  if (isOwned) {
+    ownedPokemon = isOwned(data.name);
+  }
 
   return (
     <StyledPokemonCard
@@ -106,9 +129,20 @@ const PokemonCard = (props: Props) => {
         <div data-testid="pokemon-card-name" className="name">
           {data.name}
         </div>
-        {isOwned && isOwned(data.name) && (
+        {ownedPokemon && (
           <div data-testid="pokemon-card-owned" className="owned">
             Owned
+          </div>
+        )}
+        {ownedPokemon && (
+          <div data-testid="nickname" className="nickname">
+            <div className="label">Nickname</div>
+
+            <div className="nickname-value">
+              {ownedPokemon.nickname === ''
+                ? "Haven't named"
+                : ownedPokemon.nickname}
+            </div>
           </div>
         )}
       </div>

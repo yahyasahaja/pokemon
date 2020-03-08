@@ -7,8 +7,9 @@ import WindowRoute from '../components/WindowRoute';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import MDIcon from '../components/MDIcon';
 import PokemonDetailSkeleton from '../components/PokemonDetailSkeleton';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { MyPokemonContext } from '../contexts/MyPokemonContext';
+import { Chip } from '../components/Chip';
 
 const Container = styled.div`
   padding: 15px;
@@ -53,18 +54,6 @@ const Container = styled.div`
       display: flex;
       margin-top: 10px;
       flex-wrap: wrap;
-
-      .pokemon-chip {
-        margin-right: 20px;
-        margin-bottom: 10px;
-
-        .chip {
-          background: #3498db;
-          color: white;
-          border-radius: 100px;
-          padding: 10px 20px;
-        }
-      }
     }
   }
 
@@ -82,11 +71,23 @@ const Container = styled.div`
     }
 
     .owned {
-      text-align: center;
-      font-size: 15pt;
-      padding: 10px 0;
-      font-weight: 500;
-      color: #0098e1;
+      padding: 5px 0;
+
+      .owned-label {
+        font-size: 11pt;
+        text-align: left;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .nickname-mutation-wrapper {
+        display: flex;
+        align-items: center;
+
+        .save-button {
+          margin-left: 10px;
+        }
+      }
     }
   }
 
@@ -155,13 +156,7 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
           <div className="key">Types</div>
           <div className="value">
             {pokemon.types.map((pokemonType, index: number) => {
-              return (
-                <div key={index} className="pokemon-chip">
-                  <div className="chip" color="primary">
-                    {pokemonType.type.name}
-                  </div>
-                </div>
-              );
+              return <Chip key={index} value={pokemonType.type.name} />;
             })}
           </div>
         </div>
@@ -170,13 +165,16 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
           <div className="key">Abilities</div>
           <div className="value">
             {pokemon.abilities.map((pokemonAbility, index: number) => {
-              return (
-                <div key={index} className="pokemon-chip">
-                  <div className="chip" color="primary">
-                    {pokemonAbility.ability.name}
-                  </div>
-                </div>
-              );
+              return <Chip key={index} value={pokemonAbility.ability.name} />;
+            })}
+          </div>
+        </div>
+
+        <div className="key-value">
+          <div className="key">Moves</div>
+          <div className="value">
+            {pokemon.moves.map((pokemonMove, index: number) => {
+              return <Chip key={index} value={pokemonMove.move.name} />;
             })}
           </div>
         </div>
@@ -187,7 +185,32 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
               data-testid="pokemon-details-has-owned-message"
               className="owned"
             >
-              You have owned this pokemon
+              <div className="owned-label">You have owned this pokemon</div>
+              <div className="nickname-mutation-wrapper">
+                <TextField
+                  name="update-nickname"
+                  variant="standard"
+                  color="primary"
+                  label="Nickname"
+                  fullWidth
+                  placeholder="Type this pokemon nickname"
+                />
+
+                <Button
+                  className="save-button"
+                  variant="contained"
+                  color="primary"
+                >
+                  Save
+                </Button>
+                <Button
+                  className="save-button"
+                  variant="contained"
+                  color="secondary"
+                >
+                  Release
+                </Button>
+              </div>
             </div>
           ) : (
             <Button

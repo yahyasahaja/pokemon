@@ -6,16 +6,20 @@ import { PokemonListItem } from './PokemonContext';
 import { withOverlayLoading } from './OverlayLoadingContext';
 import { withSnackbar } from './SnackbarContext';
 
+export interface MyPokemonListItem extends PokemonListItem {
+  nickname: string;
+}
+
 interface Actions {
-  fetchMyPokemons?: () => Promise<PokemonListItem[]>;
+  fetchMyPokemons?: () => Promise<MyPokemonListItem[]>;
   catchPokemon?: (pokemonListItem: PokemonListItem) => Promise<any>;
   clearCatchTimeout?: () => void;
-  isOwned?: (name: string) => boolean;
+  isOwned?: (name: string) => MyPokemonListItem | null;
   clearPokemons?: () => void;
 }
 
 interface DefaultValue extends Actions {
-  myPokemons: PokemonListItem[];
+  myPokemons: MyPokemonListItem[];
   isCalculatingCatch: boolean;
   timeoutId: number;
 }
@@ -41,12 +45,15 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
       const timeoutId = setTimeout(async () => {
         this.props.overlayLoadingContext.hide();
         if (utils.calculateCatchPokemon()) {
-          const myPokemons: PokemonListItem[] = await this.getMyPokemonsFromLocal();
+          const myPokemons: MyPokemonListItem[] = await this.getMyPokemonsFromLocal();
 
           if (myPokemons) {
             const isOwned = await this.isOwned(pokemonListItem.name);
             if (!isOwned) {
-              myPokemons.push(pokemonListItem);
+              myPokemons.push({
+                ...pokemonListItem,
+                nickname: '',
+              });
               this.props.snackbarContext.show('Gotcha', {
                 severity: 'success',
               });
@@ -94,7 +101,7 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
 
   fetchMyPokemons = async () => {
     try {
-      const myPokemons: PokemonListItem[] = await this.getMyPokemonsFromLocal();
+      const myPokemons: MyPokemonListItem[] = await this.getMyPokemonsFromLocal();
       if (myPokemons) {
         await this.setStateAsync({
           myPokemons,
@@ -118,7 +125,7 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
   };
 
   getMyPokemonsFromLocal = async () => {
-    const myPokemons: PokemonListItem[] = await localforage.getItem(
+    const myPokemons: MyPokemonListItem[] = await localforage.getItem(
       LOCAL_MY_POKEMONS_URI
     );
 
@@ -134,11 +141,11 @@ class MyPokemonStoreClass extends Component<any, DefaultValue>
     if (myPokemons.length > 0) {
       for (const pokemon of myPokemons) {
         if (pokemon.name === name) {
-          return true;
+          return pokemon;
         }
       }
     }
-    return false;
+    return null;
   };
 
   setStateAsync = (state: any): Promise<DefaultValue> => {

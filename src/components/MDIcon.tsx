@@ -8,19 +8,15 @@ const Icon = styled.span`
   line-height: 1;
 `;
 
-export const MDIcon = (props: any) => {
-  const { color, margin, className = '', style = {}, onClick, icon } = props;
+export type Props = {
+  icon: string;
+  className?: string;
+};
 
-  if (color) style.color = color;
-  if (margin) style.margin = '0 5px';
+export const MDIcon = (props: Props) => {
+  const { className = '', icon } = props;
 
-  return (
-    <Icon
-      onClick={onClick}
-      style={style}
-      className={`${className} mdi mdi-${icon}`}
-    />
-  );
+  return <Icon className={`${className} mdi mdi-${icon}`} />;
 };
 
 export default MDIcon;

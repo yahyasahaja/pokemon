@@ -4,8 +4,8 @@ declare global {
   interface Window {
     utils: {
       calculateCatchPokemon: any;
-      localforage: any
-    }
+      localforage: any;
+    };
   }
 }
 
@@ -20,8 +20,12 @@ export const generateImageUrlById = (id: number): string => {
 };
 
 export const utils = {
-  calculateCatchPokemon:  () =>Math.random() < 0.5,
+  calculateCatchPokemon: () => Math.random() < 0.5,
   localforage,
+};
+
+export const convertDashedToReadable = (dashedString: string): string => {
+  return dashedString.split('-').join(' ');
 };
 
 (window as Window).utils = utils;
