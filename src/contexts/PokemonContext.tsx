@@ -48,6 +48,7 @@ interface Actions {
   fetchPokemon?: (name: string) => void;
   next?: () => void;
   resetAndFetch?: () => void;
+  resetPokemon?: () => void;
 }
 
 interface DefaultValue extends Actions {
@@ -180,6 +181,12 @@ export class PokemonStore extends Component<any, DefaultValue>
     await this.fetchPokemons();
   };
 
+  resetPokemon = async () => {
+    await this.setStateAsync({
+      pokemon: null,
+    });
+  };
+
   setStateAsync = (state: any): Promise<DefaultValue> => {
     return new Promise(resolve => {
       this.setState(state, () => resolve(state));
@@ -195,6 +202,7 @@ export class PokemonStore extends Component<any, DefaultValue>
           fetchPokemons: this.fetchPokemons,
           next: this.next,
           resetAndFetch: this.resetAndFetch,
+          resetPokemon: this.resetPokemon,
         }}
       >
         {this.props.children}

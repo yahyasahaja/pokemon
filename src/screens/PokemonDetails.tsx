@@ -116,9 +116,12 @@ type ParamsType = {
 };
 
 const Pokemons = (props: RouteComponentProps<ParamsType>) => {
-  const { pokemon, fetchPokemon, isFetchingPokemon } = React.useContext(
-    PokemonContext
-  );
+  const {
+    pokemon,
+    resetPokemon,
+    fetchPokemon,
+    isFetchingPokemon,
+  } = React.useContext(PokemonContext);
   const { catchPokemon, isOwned, updateNickname, release } = React.useContext(
     MyPokemonContext
   );
@@ -129,6 +132,10 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
 
   React.useEffect(() => {
     if (fetchPokemon) fetchPokemon(match.params.name);
+
+    return () => {
+      if (resetPokemon) resetPokemon();
+    };
     // eslint-disable-next-line
   }, [])
 

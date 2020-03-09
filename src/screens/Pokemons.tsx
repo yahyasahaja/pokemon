@@ -9,6 +9,7 @@ import PokemonSkeleton from '../components/PokemonSkeleton';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import asyncComponent from '../components/AsyncComponent';
 import CustomAppBar from '../components/CustomAppBar';
+import { MyPokemonContext } from '../contexts/MyPokemonContext';
 
 const PokemonDetails = asyncComponent(() =>
   import(/*webpackChunkName: "PokemonDetails"*/ './PokemonDetails')
@@ -23,9 +24,42 @@ const Container = styled.div`
   .skeleton-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     flex-wrap: wrap;
     background: white;
+  }
+
+  .logo-wrapper {
+    display: block;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 1px 1px 60px 0px #00000017;
+    margin: 10px;
+    max-width: 350px;
+    transition: 0.3s;
+    border: 1px solid #d4d4d4;
+    padding: 20px;
+
+    .logo-pokemon {
+      width: 100%;
+      height: 100px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .total-caught {
+      margin-top: 20px;
+      text-align: center;
+
+      .title {
+        font-size: 14pt;
+        font-weight: bold;
+      }
+    }
   }
 `;
 
@@ -37,6 +71,8 @@ const Pokemons = () => {
     next,
     hasNext,
   } = React.useContext(PokemonContext);
+
+  const { myPokemons } = React.useContext(MyPokemonContext);
 
   React.useEffect(() => {
     if (resetAndFetch) resetAndFetch();
@@ -84,6 +120,15 @@ const Pokemons = () => {
     <BaseRoute>
       <CustomAppBar />
       <Container>
+        <div className="logo-wrapper">
+          <div className="logo-pokemon">
+            <img src="/logo512.png" alt="" />
+          </div>
+          <div className="total-caught">
+            <div className="title">Pokemon App</div>
+            Total pokemon caught: {myPokemons.length}
+          </div>
+        </div>
         {renderPokemons()}
         {renderLoading()}
         <Route path="/pokemons/:name" component={PokemonDetails} />
