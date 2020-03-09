@@ -25,7 +25,7 @@ export const utils = {
 };
 
 export const convertDashedToReadable = (dashedString: string): string => {
-  return dashedString.split('-').join(' ');
+  return dashedString.replace(/-/g, ' ');
 };
 
 (window as Window).utils = utils;

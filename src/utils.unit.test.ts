@@ -1,4 +1,8 @@
-import { generateImageUrlById, generateImageUrlByUrl } from './utils';
+import {
+  generateImageUrlById,
+  generateImageUrlByUrl,
+  convertDashedToReadable,
+} from './utils';
 
 describe('Test helper functions', () => {
   it('generateImageUrlById shpuld give correct return value', () => {
@@ -18,5 +22,17 @@ describe('Test helper functions', () => {
     const url = 'https://someurl/blabla/yay/2';
     const result = generateImageUrlByUrl(url);
     expect(result).toContain('/2.png');
+  });
+
+  it('convertDashedToReadable should give the correct return value', () => {
+    const dashedString = 'yahya-asti';
+    const result = convertDashedToReadable(dashedString);
+    expect(result).toContain('yahya asti');
+  });
+
+  it('convertDashedToReadable with 3 words', () => {
+    const dashedString = 'yahya-asti-lol';
+    const result = convertDashedToReadable(dashedString);
+    expect(result).toContain('yahya asti lol');
   });
 });

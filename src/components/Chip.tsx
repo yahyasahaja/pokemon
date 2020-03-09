@@ -14,10 +14,10 @@ const StyledChip = styled.div`
 
 export type Props = {
   value: string;
-  className: string;
+  className?: string;
 };
 
-export const Chip = (props: any) => {
+export const Chip = (props: Props) => {
   const { value, className } = props;
 
   return (

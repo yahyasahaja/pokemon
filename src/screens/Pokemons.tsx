@@ -34,7 +34,7 @@ const Container = styled.div`
     border-radius: 20px;
     background: white;
     box-shadow: 1px 1px 60px 0px #00000017;
-    margin: 10px;
+    margin: 10px auto;
     max-width: 350px;
     transition: 0.3s;
     border: 1px solid #d4d4d4;
