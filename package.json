@@ -49,8 +49,7 @@
     "watch:server:dev": "nodemon build-server",
     "start:server:dev": "npm-run-all --parallel build:server:dev watch:server:dev",
     "build:server": "webpack --config webpack.server.js --mode production",
-    "watch:server": "nodemon build-server",
-    "start:server": "npm-run-all build:server watch:server"
+    "start:server": "pm2 start ecosystem.config.js --env production"
   },
   "eslintConfig": {
     "extends": "react-app"

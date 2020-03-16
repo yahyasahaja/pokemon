@@ -2,10 +2,10 @@ module.exports = {
   apps: [
     {
       name: 'inka-msa-server',
-      script: 'build/index.js',
+      script: 'build-server/index.js',
       instances: 1,
       autorestart: true,
-      watch: ['src', 'build'],
+      watch: ['build-server'],
       ignore_watch: ['node_modules', 'uploads'],
       watch_options: {
         followSymlinks: false,

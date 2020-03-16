@@ -26,6 +26,21 @@ stages:
   # - staging
   - production
 
+Build:
+  image: node:12.5.0
+  stage: build
+  before_script: 
+    - yarn config set cache-folder .yarn
+    - yarn install 
+  script:
+    - yarn build
+    - yarn build:server
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build
+      - build-server
+
 Test:
   image: node:12.5.0
   stage: test
@@ -47,19 +62,6 @@ End to end test:
     - npx cypress cache list
     - yarn e2e-test
 
-Build:
-  image: node:12.5.0
-  stage: build
-  before_script: 
-    - yarn config set cache-folder .yarn
-    - yarn install 
-  script:
-    - yarn build
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - build
-
 Deploy to Production:
   image: alpine
   stage: production
@@ -70,3 +72,4 @@ Deploy to Production:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -rav build ubuntu@54.255.249.17:pokemon
+    - rsync -rav build-server ubuntu@54.255.249.17:pokemon
