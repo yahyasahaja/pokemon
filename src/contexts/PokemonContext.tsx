@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { generateImageUrlById, generateImageUrlByUrl } from '../utils';
 import localforage from 'localforage';
 import { LOCAL_POKEMON_MAP_URI } from '../config';
+import { fetchPokemons, fetchPokemon } from '../repository';
 
 export type Ability = {
   ability: {
@@ -61,6 +62,11 @@ interface DefaultValue extends Actions {
   hasNext: boolean;
 }
 
+type PokemonProps = {
+  pokemons?: PokemonListItem[];
+  pokemon?: Pokemon;
+};
+
 export const defaultValue: DefaultValue = {
   pokemons: [],
   pokemon: null,
@@ -73,9 +79,21 @@ export const defaultValue: DefaultValue = {
 
 export const PokemonContext = React.createContext(defaultValue);
 
-export class PokemonStore extends Component<any, DefaultValue>
+export class PokemonStore extends Component<PokemonProps, DefaultValue>
   implements Actions {
   state = defaultValue;
+
+  constructor(props) {
+    super(props);
+
+    const firstState = defaultValue;
+
+    for (const i in props) {
+      if (props[i]) firstState[i] = props[i];
+    }
+
+    this.state = firstState;
+  }
 
   fetchPokemon = async (name: string) => {
     try {
@@ -88,7 +106,7 @@ export class PokemonStore extends Component<any, DefaultValue>
         });
       }
 
-      const { data } = await Axios.get(`/pokemon/${name}`);
+      const { data } = await fetchPokemon(name);
 
       if (data) {
         const pokemonResult: Pokemon = {
@@ -144,7 +162,7 @@ export class PokemonStore extends Component<any, DefaultValue>
 
       const {
         data: { results, next },
-      } = await Axios.get(`/pokemon?offset=${offset}&limit=${limit}`);
+      } = await fetchPokemons(offset, limit);
 
       if (results) {
         const pokemonsResult: PokemonListItem[] = results.map((d: any) => {

@@ -67,19 +67,21 @@ export class MainRouterStore extends Component<any, DefaultValue> {
   };
 
   checkAndUpdateRouter = () => {
-    const path: string = window.location.pathname;
-    const routers = this.state.routers;
+    if (typeof window !== 'undefined') {
+      const path: string = window.location.pathname;
+      const routers = this.state.routers;
 
-    if (routers) {
-      const route: NavigationProps | undefined = routers.find(
-        v => path.indexOf(v.path) !== -1
-      );
+      if (routers) {
+        const route: NavigationProps | undefined = routers.find(
+          v => path.indexOf(v.path) !== -1
+        );
 
-      if (route) {
-        this.setState({
-          selectedRoute: route,
-          selectedPath: route.path,
-        });
+        if (route) {
+          this.setState({
+            selectedRoute: route,
+            selectedPath: route.path,
+          });
+        }
       }
     }
   };

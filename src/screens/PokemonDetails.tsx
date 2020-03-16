@@ -268,7 +268,6 @@ const Pokemons = (props: RouteComponentProps<ParamsType>) => {
                   if (res) {
                     setNickname('');
                     nicknameInput?.current?.focus();
-                    console.log(nicknameInput);
                   }
                 }
               }}

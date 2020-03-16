@@ -1,19 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Route } from 'react-router-dom';
 import { PokemonContext } from '../contexts/PokemonContext';
 import PokemonCard from '../components/PokemonCard';
 import BaseRoute from '../components/BaseRoute';
 import PokemonSkeleton from '../components/PokemonSkeleton';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import asyncComponent from '../components/AsyncComponent';
 import CustomAppBar from '../components/CustomAppBar';
 import { MyPokemonContext } from '../contexts/MyPokemonContext';
-
-const PokemonDetails = asyncComponent(() =>
-  import(/*webpackChunkName: "PokemonDetails"*/ './PokemonDetails')
-);
+import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 
 const Container = styled.div`
   padding: 15px;
@@ -63,7 +58,7 @@ const Container = styled.div`
   }
 `;
 
-const Pokemons = () => {
+const Pokemons = (props: RouteConfigComponentProps) => {
   const {
     pokemons,
     isFetchingPokemons,
@@ -73,6 +68,8 @@ const Pokemons = () => {
   } = React.useContext(PokemonContext);
 
   const { myPokemons } = React.useContext(MyPokemonContext);
+
+  const { route } = props;
 
   React.useEffect(() => {
     if (resetAndFetch) resetAndFetch();
@@ -131,7 +128,7 @@ const Pokemons = () => {
         </div>
         {renderPokemons()}
         {renderLoading()}
-        <Route path="/pokemons/:name" component={PokemonDetails} />
+        {route?.routes && renderRoutes(route.routes)}
       </Container>
     </BaseRoute>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { SnackbarContext } from './contexts/SnackbarContext';
-import AppRouters from './AppRouters';
 import axios from 'axios';
 import { BASE_URL } from './config';
 import OverlayLoading from './components/OverlayLoading';
@@ -13,16 +12,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { ServiceWorkerContext } from './contexts/ServiceWorkerContext';
-import { BrowserRouter } from 'react-router-dom';
 import { MyPokemonContext } from './contexts/MyPokemonContext';
 import { IconButton } from '@material-ui/core';
 import MDIcon from './components/MDIcon';
-
-declare global {
-  interface Window {
-    snackbar: any;
-  }
-}
+import BottomNavigation from './components/BottomNavigation';
+import { renderRoutes } from 'react-router-config';
+import routes from './routes';
 
 function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,7 +34,7 @@ const App = () => {
     message,
     severity,
     close,
-  } = (window.snackbar = React.useContext(SnackbarContext));
+  } = React.useContext(SnackbarContext);
 
   const { fetchMyPokemons } = React.useContext(MyPokemonContext);
 
@@ -58,9 +53,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <AppRouters />
-      </BrowserRouter>
+      {renderRoutes(routes)}
+      <BottomNavigation />
       <Snackbar
         open={!!isOpened}
         autoHideDuration={autoHideDuration}

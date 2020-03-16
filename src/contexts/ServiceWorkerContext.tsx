@@ -71,22 +71,24 @@ export class ServiceWorkerStore extends Component<any, DefaultValue> {
 
   checkAppInstalledStatus = () => {
     this.setState({});
-    window.addEventListener('beforeinstallprompt', e => {
-      // Stash the event so it can be triggered later.
-      e.preventDefault();
-      this.deferredAppInstallPrompt = e;
-      const status = localStorage.getItem(APP_INSTALL_STATUS_URI);
-      if (!status) {
-        this.setState({
-          appInstallationStatus: 'unset',
-          isInstallPromptUIShowed: true,
-        });
-      } else {
-        this.setState({
-          appInstallationStatus: status,
-        });
-      }
-    });
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeinstallprompt', e => {
+        // Stash the event so it can be triggered later.
+        e.preventDefault();
+        this.deferredAppInstallPrompt = e;
+        const status = localStorage.getItem(APP_INSTALL_STATUS_URI);
+        if (!status) {
+          this.setState({
+            appInstallationStatus: 'unset',
+            isInstallPromptUIShowed: true,
+          });
+        } else {
+          this.setState({
+            appInstallationStatus: status,
+          });
+        }
+      });
+    }
   };
 
   showAppInstallPrompt = async () => {

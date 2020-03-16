@@ -1,18 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Route } from 'react-router-dom';
 import PokemonCard from '../components/PokemonCard';
 import BaseRoute from '../components/BaseRoute';
-import asyncComponent from '../components/AsyncComponent';
 import { MyPokemonContext } from '../contexts/MyPokemonContext';
 import MDIcon from '../components/MDIcon';
 import CustomAppBar from '../components/CustomAppBar';
 import { IconButton } from '@material-ui/core';
-
-const PokemonDetails = asyncComponent(() =>
-  import(/*webpackChunkName: "PokemonDetails"*/ './PokemonDetails')
-);
+import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 
 const Container = styled.div`
   padding: 15px;
@@ -56,8 +51,9 @@ const Container = styled.div`
   }
 `;
 
-const MyPokemons = () => {
+const MyPokemons = (props: RouteConfigComponentProps) => {
   const { myPokemons, clearPokemons } = React.useContext(MyPokemonContext);
+  const { route } = props;
 
   function renderPokemons() {
     if (myPokemons.length === 0)
@@ -96,7 +92,7 @@ const MyPokemons = () => {
           Total pokemon caught: {myPokemons.length}
         </div>
         {renderPokemons()}
-        <Route path="/mypokemons/:name" component={PokemonDetails} />
+        {route?.routes && renderRoutes(route.routes)}
       </Container>
     </BaseRoute>
   );

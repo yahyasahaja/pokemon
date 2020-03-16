@@ -1,5 +1,7 @@
 import localforage from 'localforage';
 import { IMAGE_URL } from './config';
+import { matchRoutes, RouteConfig } from 'react-router-config';
+import { AsyncComponentWrapper } from './components/AsyncComponent';
 
 declare global {
   interface Window {
@@ -28,4 +30,24 @@ export const convertDashedToReadable = (dashedString: string): string => {
   return dashedString.replace(/-/g, ' ');
 };
 
-(window as Window).utils = utils;
+export const ensureReady = (routeConfig: RouteConfig[], location?: string) => {
+  const matches = matchRoutes(
+    routeConfig,
+    location || window.location.pathname
+  );
+
+  return Promise.all(
+    matches.map(match => {
+      const { component } = match.route;
+      const asyncComponent = component as AsyncComponentWrapper;
+      if (asyncComponent && asyncComponent.load) {
+        return asyncComponent.load();
+      }
+      return undefined;
+    })
+  );
+};
+
+if (typeof window !== 'undefined') {
+  if (window) (window as Window).utils = utils;
+}

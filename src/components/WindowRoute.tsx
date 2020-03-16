@@ -126,13 +126,8 @@ const WindowRoute = (props: Props) => {
     }, 300);
   };
 
-  return (
-    <Dialog
-      fullScreen
-      open={isOpened}
-      onClose={close}
-      TransitionComponent={Transition}
-    >
+  function renderDialogContent() {
+    return (
       <PosedContainer
         backgroundcolor={backgroundColor || null}
         pose={pose}
@@ -161,6 +156,19 @@ const WindowRoute = (props: Props) => {
         </StyledAppBar>
         <div className="screen-container">{children}</div>
       </PosedContainer>
+    );
+  }
+
+  if (typeof window === 'undefined') return renderDialogContent();
+
+  return (
+    <Dialog
+      fullScreen
+      open={isOpened}
+      onClose={close}
+      TransitionComponent={Transition}
+    >
+      {renderDialogContent()}
     </Dialog>
   );
 };
