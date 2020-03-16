@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 //COMPONENT
 import { SnackbarContext } from '../contexts/SnackbarContext';
-import { RouteConfigComponentProps, MatchedRoute } from 'react-router-config';
+import { RouteConfigComponentProps } from 'react-router-config';
 
 const PageLoading = styled.div`
   position: fixed;

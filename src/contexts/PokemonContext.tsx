@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { generateImageUrlById, generateImageUrlByUrl } from '../utils';
 import localforage from 'localforage';
 import { LOCAL_POKEMON_MAP_URI } from '../config';
