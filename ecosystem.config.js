@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'inka-msa-server',
+      name: 'pokemon-server',
       script: 'build-server/index.js',
       instances: 1,
       autorestart: true,

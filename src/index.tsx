@@ -18,6 +18,7 @@ import { MyPokemonStore } from './contexts/MyPokemonContext';
 import routes from './routes';
 import { ensureReady } from './utils';
 import { BrowserRouter, StaticRouter } from 'react-router-dom';
+import * as serviceWorker from './serviceWorker';
 
 const MUITheme = createMuiTheme({
   palette: {
@@ -77,7 +78,7 @@ if (typeof window !== 'undefined') {
       document.getElementById('root')
     );
   });
-  // serviceWorker.register();
+  serviceWorker.register();
 }
 
 export const renderOnServer = (location: string, serverProps: ServerProps) => {
