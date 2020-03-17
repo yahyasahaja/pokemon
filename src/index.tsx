@@ -78,7 +78,7 @@ if (typeof window !== 'undefined') {
       document.getElementById('root')
     );
   });
-  serviceWorker.register();
+  // serviceWorker.register();
 }
 
 export const renderOnServer = (location: string, serverProps: ServerProps) => {
