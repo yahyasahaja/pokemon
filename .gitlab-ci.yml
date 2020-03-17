@@ -21,8 +21,8 @@ cache:
 # Order matters.  
 stages:
   - test
-  - e2e-test
   - build
+  - e2e-test
   # - staging
   - production
 
@@ -33,19 +33,6 @@ Test:
     - yarn install --frozen-lockfile
   script:
     - CI=true yarn test --coverage
-
-End to end test:
-  image: cypress/base:10
-  stage: e2e-test
-  before_script: 
-    - yarn install --frozen-lockfile
-  script:
-    # check Cypress binary path and cached versions
-    # useful to make sure we are not carrying around old versions
-    - npx cypress install
-    - npx cypress cache path
-    - npx cypress cache list
-    - yarn e2e-test
 
 Build:
   image: node:12.5.0
@@ -61,6 +48,19 @@ Build:
     paths:
       - build
       - build-server
+
+End to end test:
+  image: cypress/base:10
+  stage: e2e-test
+  before_script: 
+    - yarn install --frozen-lockfile
+  script:
+    # check Cypress binary path and cached versions
+    # useful to make sure we are not carrying around old versions
+    - npx cypress install
+    - npx cypress cache path
+    - npx cypress cache list
+    - yarn e2e-test
 
 Deploy to Production:
   image: alpine

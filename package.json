@@ -44,11 +44,12 @@
     "lint": "eslint -c .eslintrc.json --ext .ts src",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run",
-    "e2e-test": "start-server-and-test start http://localhost:3002 cypress:run",
+    "e2e-test": "start-server-and-test start:test:server http://127.0.0.1:4002 cypress:run",
     "build:server:dev": "webpack --config webpack.server.js --mode development",
     "watch:server:dev": "nodemon build-server",
     "start:server:dev": "npm-run-all --parallel build:server:dev watch:server:dev",
     "build:server": "webpack --config webpack.server.js --mode production",
+    "start:test:server": "node build-server",
     "start:server": "pm2 start ecosystem.config.js --env production"
   },
   "eslintConfig": {

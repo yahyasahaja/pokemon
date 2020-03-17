@@ -1,7 +1,8 @@
 {
-  "baseUrl": "http://localhost:3002",
+  "baseUrl": "http://127.0.0.1:4002",
   "viewportWidth": 400,
   "viewportHeight": 900,
   "video": false,
-  "defaultCommandTimeout": 10000
+  "defaultCommandTimeout": 10000,
+  "chromeWebSecurity": false
 }
